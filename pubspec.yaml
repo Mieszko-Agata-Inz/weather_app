@@ -34,6 +34,8 @@ dependencies:
     sdk: flutter
 
   provider: ^6.0.0
+  weather: ^3.1.1
+  geocoding: ^2.1.1
   # latlng: any
   # flutter_map: any
   # flutter_map_marker_cluster: any
@@ -70,6 +72,10 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - images/cloudMy.png
+    - images/snowing.png
+    - images/map.png
+    - images/sky.JPG
+    - images/sky_snow.JPG
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

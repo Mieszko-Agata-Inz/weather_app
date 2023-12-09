@@ -55,7 +55,27 @@ class _MapScreen extends State<MapScreen> {
                 ),
               )),
             ),
-          )
+          ),
+          Container(
+            decoration: const BoxDecoration(
+              gradient: RadialGradient(
+                  center: Alignment(-0.4, 0.4),
+                  radius: 0.6,
+                  focalRadius: 0.2,
+                  stops: [
+                    0.05,
+                    0.15,
+                    0.4,
+                    0.7
+                  ],
+                  colors: [
+                    Color.fromARGB(255, 0, 132, 255),
+                    Color.fromARGB(190, 0, 132, 255),
+                    Color.fromARGB(92, 0, 132, 255),
+                    Color.fromARGB(0, 0, 132, 255),
+                  ]),
+            ),
+          ),
         ],
       ),
     );

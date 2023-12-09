@@ -1,5 +1,4 @@
-openapi: 3.0.1
-
+openapi: 3.0.3
 info:
   title: FastAPI
   version: 0.1.0
@@ -17,99 +16,35 @@ paths:
           description: Successful Response
           content:
             application/json:
-              schema:
-                type: array
-                items:
-                  type: string
-  /forecast/{geohash}:
+              schema: {}
+  /forecast/{lat}/{lon}:
     get:
       summary: Forecast
       description: |-
         function returns a forecast for a given geohash
 
         geohash - string of a geohash, must correspond to a geohash present in redis
-      operationId: forecast_forecast__geohash__get
+      operationId: forecast_forecast__lat___lon__get
       parameters:
-        - name: geohash
+        - name: lat
           in: path
           required: true
           schema:
-            title: Geohash
+            type: number
+            title: Lat
+        - name: lon
+          in: path
+          required: true
+          schema:
+            type: number
+            title: Lon
       responses:
         "200":
           description: Successful Response
-          content:
-            application/json:
-              schema: {}
-        "422":
-          description: Validation Error
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/HTTPValidationError"
-  /rawdata/{timestamp}:
-    get:
-      summary: Rawdata
-      description: |-
-        function returns all raw data from  timestamp up until now
-        timestamp - unix timestamp in miliseconds, defaults to 1 hour
-      operationId: rawdata_rawdata__timestamp__get
-      parameters:
-        - name: timestamp
-          in: path
-          required: true
-          schema:
-            title: Timestamp
-      responses:
-        "200":
-          description: Successful Response
-          content:
-            application/json:
-              schema: {}
-        "422":
-          description: Validation Error
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/HTTPValidationError"
-  /update/{state}/{model_name}:
-    post:
-      summary: Update Model
-      description: |-
-        function returns all raw data from  timestamp up until now
-        timestamp - unix timestamp in miliseconds, defaults to 1 hour
-      operationId: update_model_update__state___model_name__post
-      parameters:
-        - name: state
-          in: path
-          required: true
-          schema:
-            type: string
-            title: State
-        - name: model_name
-          in: path
-          required: true
-          schema:
-            type: string
-            title: Model Name
-        - name: req_api_key
-          in: query
-          required: true
-          schema:
-            type: string
-            title: Req Api Key
-      requestBody:
-        required: true
-        content:
-          multipart/form-data:
-            schema:
-              $ref: "#/components/schemas/Body_update_model_update__state___model_name__post"
-      responses:
-        "200":
-          description: Successful Response
-          content:
-            application/json:
-              schema: {}
+                $ref: "#/components/schemas/Item"
         "422":
           description: Validation Error
           content:
@@ -118,16 +53,17 @@ paths:
                 $ref: "#/components/schemas/HTTPValidationError"
 components:
   schemas:
-    Body_update_model_update__state___model_name__post:
-      properties:
-        file:
-          type: string
-          format: binary
-          title: File
+    Item:
       type: object
       required:
-        - file
-      title: Body_update_model_update__state___model_name__post
+        - title
+      properties:
+        title:
+          type: array
+          items:
+            type: number
+            example: [12.1, 1, 14]
+
     HTTPValidationError:
       properties:
         detail:
@@ -137,6 +73,7 @@ components:
           title: Detail
       type: object
       title: HTTPValidationError
+
     ValidationError:
       properties:
         loc:

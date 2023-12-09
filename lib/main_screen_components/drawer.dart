@@ -5,7 +5,11 @@ class DrawerBurger extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Color itemscol = Color.fromARGB(196, 237, 239, 248);
     return Drawer(
+      backgroundColor: itemscol,
+      surfaceTintColor: itemscol,
+      shadowColor: itemscol,
       key: Key("drawer"),
       width: 260,
       child: Column(),

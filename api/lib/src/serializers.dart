@@ -15,6 +15,7 @@ import 'package:openapi/src/date_serializer.dart';
 import 'package:openapi/src/model/date.dart';
 
 import 'package:openapi/src/model/http_validation_error.dart';
+import 'package:openapi/src/model/item.dart';
 import 'package:openapi/src/model/location_inner.dart';
 import 'package:openapi/src/model/validation_error.dart';
 
@@ -22,14 +23,11 @@ part 'serializers.g.dart';
 
 @SerializersFor([
   HTTPValidationError,
+  Item,
   LocationInner,
   ValidationError,
 ])
 Serializers serializers = (_$serializers.toBuilder()
-      ..addBuilderFactory(
-        const FullType(BuiltList, [FullType(String)]),
-        () => ListBuilder<String>(),
-      )
       ..add(const OneOfSerializer())
       ..add(const AnyOfSerializer())
       ..add(const DateSerializer())
