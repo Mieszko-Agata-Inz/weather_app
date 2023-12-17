@@ -29,11 +29,17 @@ environment:
 # the latest version available on pub.dev. To see which dependencies have newer
 # versions available, run `flutter pub outdated`.
 dependencies:
-  flutter_osm_plugin: ^0.70.1
+  flutter_osm_plugin: ^0.70.3
   flutter:
     sdk: flutter
 
   provider: ^6.0.0
+  weather: ^3.1.1
+  geocoding: ^2.1.1
+  flutter_map: any
+  flutter_map_marker_cluster: any
+  google_fonts: ^6.1.0
+  flutter_map_cancellable_tile_provider: ^2.0.0
   # latlng: any
   # flutter_map: any
   # flutter_map_marker_cluster: any
@@ -45,9 +51,12 @@ dependencies:
   openapi:
     path: api
   built_value: ^8.7.0
+  test: ^1.24.9
 
 dev_dependencies:
   flutter_test:
+    sdk: flutter
+  integration_test:
     sdk: flutter
 
   # The "flutter_lints" package below contains a set of recommended lints to
@@ -69,7 +78,8 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
-    - images/cloudMy.png
+    - images/sun.png
+    - images/main.png
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

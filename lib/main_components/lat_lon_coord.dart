@@ -1,0 +1,40 @@
+import 'package:latlong2/latlong.dart';
+
+///
+/// coordinates generated in separated python file
+///
+List<LatLng> latLngList = const [
+  LatLng(52.74, 24.61),
+  LatLng(49.93, 16.18),
+  LatLng(48.52, 23.21),
+  LatLng(49.93, 24.61),
+  LatLng(48.52, 20.40),
+  LatLng(51.33, 24.61),
+  LatLng(48.52, 21.80),
+  LatLng(51.33, 18.99),
+  LatLng(51.33, 17.58),
+  LatLng(54.15, 18.99),
+  LatLng(52.74, 18.99),
+  LatLng(49.93, 21.80),
+  LatLng(52.74, 17.58),
+  LatLng(49.93, 20.40),
+  LatLng(52.74, 14.77),
+  LatLng(54.15, 20.40),
+  LatLng(52.74, 20.40),
+  LatLng(51.33, 23.21),
+  LatLng(51.33, 21.80),
+  LatLng(54.15, 23.21),
+  LatLng(52.74, 23.21),
+  LatLng(54.15, 16.18),
+  LatLng(49.93, 18.99),
+  LatLng(49.93, 17.58),
+  LatLng(52.74, 21.80),
+  LatLng(54.15, 14.77),
+  LatLng(54.15, 17.58),
+  LatLng(54.15, 21.80),
+  LatLng(51.33, 14.77),
+  LatLng(49.93, 23.21),
+  LatLng(51.33, 20.40),
+  LatLng(51.33, 16.18),
+  LatLng(52.74, 16.18),
+];

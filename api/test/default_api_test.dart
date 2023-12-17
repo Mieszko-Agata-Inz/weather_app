@@ -11,33 +11,15 @@ void main() {
     //
     // function returns a forecast for a given geohash  geohash - string of a geohash, must correspond to a geohash present in redis
     //
-    //Future<JsonObject> forecastForecastGeohashGet(JsonObject geohash) async
-    test('test forecastForecastGeohashGet', () async {
-      // TODO
-    });
-
-    // Rawdata
-    //
-    // function returns all raw data from  timestamp up until now timestamp - unix timestamp in miliseconds, defaults to 1 hour
-    //
-    //Future<JsonObject> rawdataRawdataTimestampGet(JsonObject timestamp) async
-    test('test rawdataRawdataTimestampGet', () async {
+    //Future<Prediction> forecastForecastLatLonGet(num lat, num lon) async
+    test('test forecastForecastLatLonGet', () async {
       // TODO
     });
 
     // Root
     //
-    //Future<BuiltList<String>> rootGet() async
+    //Future<JsonObject> rootGet() async
     test('test rootGet', () async {
-      // TODO
-    });
-
-    // Update Model
-    //
-    // function returns all raw data from  timestamp up until now timestamp - unix timestamp in miliseconds, defaults to 1 hour
-    //
-    //Future<JsonObject> updateModelUpdateStateModelNamePost(String state, String modelName, String reqApiKey, MultipartFile file) async
-    test('test updateModelUpdateStateModelNamePost', () async {
       // TODO
     });
 
