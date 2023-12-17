@@ -11,7 +11,7 @@ void main() {
     //
     // function returns a forecast for a given geohash  geohash - string of a geohash, must correspond to a geohash present in redis
     //
-    //Future<Item> forecastForecastLatLonGet(num lat, num lon) async
+    //Future<Prediction> forecastForecastLatLonGet(num lat, num lon) async
     test('test forecastForecastLatLonGet', () async {
       // TODO
     });

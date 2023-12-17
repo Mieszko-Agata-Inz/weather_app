@@ -44,7 +44,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Item"
+                $ref: "#/components/schemas/Prediction"
         "422":
           description: Validation Error
           content:
@@ -53,12 +53,30 @@ paths:
                 $ref: "#/components/schemas/HTTPValidationError"
 components:
   schemas:
-    Item:
+    Prediction:
       type: object
       required:
-        - title
+        - hour0
+        - hour1
+        - hour2
+        - hour3
       properties:
-        title:
+        hour0:
+          type: array
+          items:
+            type: number
+            example: [12.1, 1, 14]
+        hour1:
+          type: array
+          items:
+            type: number
+            example: [12.1, 1, 14]
+        hour2:
+          type: array
+          items:
+            type: number
+            example: [12.1, 1, 14]
+        hour3:
           type: array
           items:
             type: number

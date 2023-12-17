@@ -8,8 +8,8 @@ part of 'serializers.dart';
 
 Serializers _$serializers = (new Serializers().toBuilder()
       ..add(HTTPValidationError.serializer)
-      ..add(Item.serializer)
       ..add(LocationInner.serializer)
+      ..add(Prediction.serializer)
       ..add(ValidationError.serializer)
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(LocationInner)]),
@@ -17,6 +17,15 @@ Serializers _$serializers = (new Serializers().toBuilder()
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(ValidationError)]),
           () => new ListBuilder<ValidationError>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(num)]),
+          () => new ListBuilder<num>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(num)]),
+          () => new ListBuilder<num>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(num)]),
+          () => new ListBuilder<num>())
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(num)]),
           () => new ListBuilder<num>()))

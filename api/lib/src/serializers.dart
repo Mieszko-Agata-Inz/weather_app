@@ -15,16 +15,16 @@ import 'package:openapi/src/date_serializer.dart';
 import 'package:openapi/src/model/date.dart';
 
 import 'package:openapi/src/model/http_validation_error.dart';
-import 'package:openapi/src/model/item.dart';
 import 'package:openapi/src/model/location_inner.dart';
+import 'package:openapi/src/model/prediction.dart';
 import 'package:openapi/src/model/validation_error.dart';
 
 part 'serializers.g.dart';
 
 @SerializersFor([
   HTTPValidationError,
-  Item,
   LocationInner,
+  Prediction,
   ValidationError,
 ])
 Serializers serializers = (_$serializers.toBuilder()

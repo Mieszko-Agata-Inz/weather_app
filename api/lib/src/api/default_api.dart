@@ -9,7 +9,7 @@ import 'package:dio/dio.dart';
 
 import 'package:built_value/json_object.dart';
 import 'package:openapi/src/model/http_validation_error.dart';
-import 'package:openapi/src/model/item.dart';
+import 'package:openapi/src/model/prediction.dart';
 
 class DefaultApi {
 
@@ -32,9 +32,9 @@ class DefaultApi {
   /// * [onSendProgress] - A [ProgressCallback] that can be used to get the send progress
   /// * [onReceiveProgress] - A [ProgressCallback] that can be used to get the receive progress
   ///
-  /// Returns a [Future] containing a [Response] with a [Item] as data
+  /// Returns a [Future] containing a [Response] with a [Prediction] as data
   /// Throws [DioError] if API call or serialization fails
-  Future<Response<Item>> forecastForecastLatLonGet({ 
+  Future<Response<Prediction>> forecastForecastLatLonGet({ 
     required num lat,
     required num lon,
     CancelToken? cancelToken,
@@ -65,14 +65,14 @@ class DefaultApi {
       onReceiveProgress: onReceiveProgress,
     );
 
-    Item? _responseData;
+    Prediction? _responseData;
 
     try {
       final rawResponse = _response.data;
       _responseData = rawResponse == null ? null : _serializers.deserialize(
         rawResponse,
-        specifiedType: const FullType(Item),
-      ) as Item;
+        specifiedType: const FullType(Prediction),
+      ) as Prediction;
 
     } catch (error, stackTrace) {
       throw DioError(
@@ -84,7 +84,7 @@ class DefaultApi {
       );
     }
 
-    return Response<Item>(
+    return Response<Prediction>(
       data: _responseData,
       headers: _response.headers,
       isRedirect: _response.isRedirect,

@@ -72,8 +72,8 @@ Class | Method | HTTP request | Description
 ## Documentation For Models
 
  - [HTTPValidationError](doc\HTTPValidationError.md)
- - [Item](doc\Item.md)
  - [LocationInner](doc\LocationInner.md)
+ - [Prediction](doc\Prediction.md)
  - [ValidationError](doc\ValidationError.md)
 
 

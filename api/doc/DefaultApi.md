@@ -14,7 +14,7 @@ Method | HTTP request | Description
 
 
 # **forecastForecastLatLonGet**
-> Item forecastForecastLatLonGet(lat, lon)
+> Prediction forecastForecastLatLonGet(lat, lon)
 
 Forecast
 
@@ -45,7 +45,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**Item**](Item.md)
+[**Prediction**](Prediction.md)
 
 ### Authorization
 

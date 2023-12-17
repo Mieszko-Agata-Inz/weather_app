@@ -12,6 +12,6 @@ export 'package:openapi/src/model/date.dart';
 export 'package:openapi/src/api/default_api.dart';
 
 export 'package:openapi/src/model/http_validation_error.dart';
-export 'package:openapi/src/model/item.dart';
 export 'package:openapi/src/model/location_inner.dart';
+export 'package:openapi/src/model/prediction.dart';
 export 'package:openapi/src/model/validation_error.dart';

@@ -1,48 +1,43 @@
-import 'dart:io';
-import 'package:http/http.dart' as http;
-import 'package:http/testing.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:http/testing.dart';
+import 'package:integration_test/integration_test.dart';
+import 'package:weather_app/main.dart';
+import 'package:weather_app/api/api.dart';
 import 'package:provider/provider.dart';
-import 'package:http/testing.dart';
-
-// The function to be tested
-Future<String> connect(http.Client client) async {
-  final response = await client.get(Uri.parse('http://localhost:83'));
-  if (response.statusCode == 200) {
-    return response.body;
-  } else {
-    throw Exception('Failed to load data');
-  }
-}
 
 void main() {
-  test('connect returns data if HTTP call completes successfully', () async {
-    final client = MockClient((request) async {
-      return http.Response('{"connection:) ok"}', 200);
+  IntegrationTestWidgetsFlutterBinding.ensureInitialized();
+
+  group('end-to-end test', () {
+    testWidgets('ensure all widgets are being displayed on main screen',
+        (tester) async {
+      // Load app widget.
+      await tester.pumpWidget(ChangeNotifierProvider(
+        create: (context) => APIProvider(),
+        child: MyApp(),
+      ));
+      await tester.pump();
+      const testKey_circ = Key('circ');
+      const testKey_search_bar = Key('searchArea');
+      const testKey_map = Key('mapButton');
+
+      expect(find.byKey(testKey_circ), findsOneWidget);
+      expect(find.byKey(testKey_search_bar), findsOneWidget);
+      expect(find.byKey(testKey_map), findsOneWidget);
     });
 
-    final result = await connect(client);
-
-    expect(result, '{"connection:) ok"}');
-  });
-
-  test('connect throws an exception if HTTP call fails', () async {
-    final client = MockClient((request) async {
-      return http.Response('Not Found', 404);
+    testWidgets('enter text in searchArea', (tester) async {
+      // Load app widget.
+      await tester.pumpWidget(ChangeNotifierProvider(
+        create: (context) => APIProvider(),
+        child: MyApp(),
+      ));
+      const testKey = Key('searchArea');
+      await tester.enterText(find.byKey(testKey), 'Iława');
+      expect(find.text("Iława"), findsOne);
+      await tester.testTextInput.receiveAction(TextInputAction.done);
+      await tester.pump();
+      expect(find.text("Iława"), findsNothing);
     });
-
-    expect(() => connect(client), throwsException);
-  });
-
-  test('connect returns data if HTTP call completes successfully', () async {
-    final client = MockClient((request) async {
-      return http.Response('{"connection:) ok"}', 200);
-    });
-
-    final result = await connect(client);
-
-    expect(result, '{"connection:) ok"}');
   });
 }
