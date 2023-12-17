@@ -47,13 +47,14 @@ import 'package:openapi/openapi.dart';
 
 
 final api = Openapi().getDefaultApi();
-final JsonObject geohash = ; // JsonObject | 
+final num lat = 8.14; // num | 
+final num lon = 8.14; // num | 
 
 try {
-    final response = await api.forecastForecastGeohashGet(geohash);
+    final response = await api.forecastForecastLatLonGet(lat, lon);
     print(response);
 } catch on DioError (e) {
-    print("Exception when calling DefaultApi->forecastForecastGeohashGet: $e\n");
+    print("Exception when calling DefaultApi->forecastForecastLatLonGet: $e\n");
 }
 
 ```
@@ -64,16 +65,15 @@ All URIs are relative to *http://localhost:83*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
-[*DefaultApi*](doc\DefaultApi.md) | [**forecastForecastGeohashGet**](doc\DefaultApi.md#forecastforecastgeohashget) | **GET** /forecast/{geohash} | Forecast
-[*DefaultApi*](doc\DefaultApi.md) | [**rawdataRawdataTimestampGet**](doc\DefaultApi.md#rawdatarawdatatimestampget) | **GET** /rawdata/{timestamp} | Rawdata
+[*DefaultApi*](doc\DefaultApi.md) | [**forecastForecastLatLonGet**](doc\DefaultApi.md#forecastforecastlatlonget) | **GET** /forecast/{lat}/{lon} | Forecast
 [*DefaultApi*](doc\DefaultApi.md) | [**rootGet**](doc\DefaultApi.md#rootget) | **GET** / | Root
-[*DefaultApi*](doc\DefaultApi.md) | [**updateModelUpdateStateModelNamePost**](doc\DefaultApi.md#updatemodelupdatestatemodelnamepost) | **POST** /update/{state}/{model_name} | Update Model
 
 
 ## Documentation For Models
 
  - [HTTPValidationError](doc\HTTPValidationError.md)
  - [LocationInner](doc\LocationInner.md)
+ - [Prediction](doc\Prediction.md)
  - [ValidationError](doc\ValidationError.md)
 
 
