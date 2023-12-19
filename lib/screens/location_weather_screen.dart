@@ -1,7 +1,6 @@
 // ignore_for_file: non_constant_identifier_names, use_super_parameters, use_build_context_synchronously
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:openapi/openapi.dart';
 import 'package:provider/provider.dart';
 import 'dart:async';
@@ -13,7 +12,6 @@ import 'package:intl/intl.dart';
 import 'package:weather_app/main_components/common_code.dart';
 import 'package:weather_app/main_components/components.dart';
 import 'package:weather_app/main_components/page_colors.dart';
-import 'package:weather_app/screens/map_screen.dart';
 import 'package:weather_app/api/api.dart';
 
 ///
@@ -21,7 +19,7 @@ import 'package:weather_app/api/api.dart';
 /// is given the key to the OpenWeatherMap which API is being used
 /// to make the conversion
 ///
-WeatherFactory wf = WeatherFactory("c3b644f0c85d9b7d64e4857adb7abd38");
+WeatherFactory wf = WeatherFactory("key");
 
 ///
 /// main screen
@@ -91,8 +89,8 @@ class _LocationWeatherScreen extends State<LocationWeatherScreen> {
   }
 
   // weather predicitons into data_list and actual_temp
-  void dataToLlist(Prediction? data) {
-    if (data == null) return;
+  bool dataToLlist(Prediction? data) {
+    if (data == null) return false;
     BuiltList<num> hour0 = data.hour0;
     BuiltList<num> hour1 = data.hour1;
     BuiltList<num> hour2 = data.hour2;
@@ -100,25 +98,26 @@ class _LocationWeatherScreen extends State<LocationWeatherScreen> {
     data_list.clear();
     data_list.add(WeatherData(
         humidity: hour1[0].toInt().toString(),
-        wind: hour1[1].toInt().toString(),
+        wind: (hour1[1] * 0.28).toInt().toString(),
         temperature: hour1[2].toInt().toString(),
         hour: 1));
     data_list.add(WeatherData(
         humidity: hour2[0].toInt().toString(),
-        wind: hour2[1].toInt().toString(),
+        wind: (hour2[1] * 0.28).toInt().toString(),
         temperature: hour2[2].toInt().toString(),
         hour: 2));
     data_list.add(WeatherData(
         humidity: hour3[0].toInt().toString(),
-        wind: hour3[1].toInt().toString(),
+        wind: (hour3[1] * 0.28).toInt().toString(),
         temperature: hour3[2].toInt().toString(),
         hour: 3));
 
     actual_temp = WeatherData(
         humidity: hour0[0].toInt().toString(),
-        wind: hour0[1].toInt().toString(),
-        temperature: hour0[2].toInt().toString(),
+        wind: (hour0[1] * 0.28).toInt().toString(),
+        temperature: (hour0[2]).toInt().toString(),
         hour: 0);
+    return true;
   }
 
   @override
@@ -350,11 +349,7 @@ class _LocationWeatherScreen extends State<LocationWeatherScreen> {
                             borderRadius: BorderRadius.circular(50),
                             child: InkWell(
                               onTap: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            const MapScreen()));
+                                Navigator.pushNamed(context, '/second');
                               },
                               borderRadius: BorderRadius.circular(50),
                               child: Container(

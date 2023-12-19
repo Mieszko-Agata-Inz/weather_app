@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
-import 'dart:ui';
-import 'package:flutter/widgets.dart';
 
 import 'package:weather_app/main_components/common_code.dart';
 import 'package:weather_app/main_components/page_colors.dart';
@@ -202,7 +200,7 @@ class MapScreenComponents {
                     borderRadius: BorderRadius.circular(50),
                     child: InkWell(
                       onTap: () {
-                        Navigator.pop(context);
+                        Navigator.pushNamed(context, '/');
                       },
                       borderRadius: BorderRadius.circular(50),
                       child: Container(
@@ -305,7 +303,7 @@ class MapScreenComponents {
                     borderRadius: BorderRadius.circular(50),
                     child: InkWell(
                       onTap: () {
-                        Navigator.pop(context);
+                        Navigator.pushNamed(context, '/');
                       },
                       borderRadius: BorderRadius.circular(50),
                       child: Container(
