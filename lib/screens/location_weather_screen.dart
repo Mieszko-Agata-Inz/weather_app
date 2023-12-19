@@ -19,7 +19,7 @@ import 'package:weather_app/api/api.dart';
 /// is given the key to the OpenWeatherMap which API is being used
 /// to make the conversion
 ///
-WeatherFactory wf = WeatherFactory("key");
+WeatherFactory wf = WeatherFactory("c3b644f0c85d9b7d64e4857adb7abd38");
 
 ///
 /// main screen
