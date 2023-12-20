@@ -6,21 +6,27 @@ import 'package:weather_app/screens/map_screen.dart';
 
 void main() async {
   runApp(
-    MyApp(),
+    const MyApp(initRoute: '/main_screen'),
   );
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({
+    super.key,
+    required this.initRoute,
+  });
+  final String initRoute;
   @override
   Widget build(BuildContext context) => ChangeNotifierProvider<APIProvider>(
         create: (context) => APIProvider(),
         child: MaterialApp(
           title: 'weather_app',
+          initialRoute: initRoute,
           routes: {
             // When navigating to the "/" route, build the FirstScreen widget.
-            '/': (context) => const LocationWeatherScreen(),
+            '/main_screen': (context) => const LocationWeatherScreen(),
             // When navigating to the "/second" route, build the SecondScreen widget.
-            '/second': (context) => const MapScreen(),
+            '/map_screen': (context) => const MapScreen(),
           },
         ),
       );

@@ -27,6 +27,7 @@ class CommonWidgets {
   static Widget weatherPanel(
       String t, String v, String h, String godz, Color background_col) {
     return Padding(
+        key: ValueKey("weatherPanel$godz"),
         padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 10),
         child: Container(
           padding: const EdgeInsets.only(
@@ -112,8 +113,10 @@ class CommonWidgets {
   /// single weather data panel displayed when waiting for data
   ///
 
-  static Widget weatherPanelCirc(Color background_col, bool main_screen) {
+  static Widget weatherPanelCirc(
+      int index, Color background_col, bool main_screen) {
     return Padding(
+      key: ValueKey("weatherPanelCirc$index"),
       padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 10),
       child: Container(
         padding:

@@ -19,7 +19,7 @@ import 'package:weather_app/api/api.dart';
 /// is given the key to the OpenWeatherMap which API is being used
 /// to make the conversion
 ///
-WeatherFactory wf = WeatherFactory("c3b644f0c85d9b7d64e4857adb7abd38");
+WeatherFactory wf = WeatherFactory("your_key");
 
 ///
 /// main screen
@@ -194,7 +194,7 @@ class _LocationWeatherScreen extends State<LocationWeatherScreen> {
                                               d.temperature,
                                               d.wind,
                                               d.humidity,
-                                              DateFormat('kk:mm').format(
+                                              DateFormat('h:mm a').format(
                                                   now.add(
                                                       Duration(hours: d.hour))),
                                               PageColor.background_col1),
@@ -238,7 +238,9 @@ class _LocationWeatherScreen extends State<LocationWeatherScreen> {
                                       children: <Widget>[
                                         for (int index = 0; index < 3; index++)
                                           CommonWidgets.weatherPanelCirc(
-                                              PageColor.background_col1, true),
+                                              index + 1,
+                                              PageColor.background_col1,
+                                              true),
                                       ]),
                                 ),
                               ],
@@ -251,6 +253,7 @@ class _LocationWeatherScreen extends State<LocationWeatherScreen> {
             ),
             // lef menu container
             Container(
+                key: const ValueKey("leftMenuMainScreen"),
                 alignment: Alignment.topLeft,
                 height: MediaQuery.of(context).size.height,
                 width: MediaQuery.of(context).size.width * 0.2,
@@ -303,7 +306,7 @@ class _LocationWeatherScreen extends State<LocationWeatherScreen> {
                         child: Padding(
                           padding: const EdgeInsets.all(7.0),
                           child: SearchBar(
-                            key: const ValueKey("searchArea"),
+                            key: const ValueKey("searchCityArea"),
                             hintText:
                                 city_exist ? null : "No data for this city",
                             controller: textarea,
@@ -343,13 +346,14 @@ class _LocationWeatherScreen extends State<LocationWeatherScreen> {
                         child: Padding(
                           padding: const EdgeInsets.all(7.0),
                           child: Material(
+                            key: const ValueKey("openMap"),
                             color: PageColor.items_col,
                             shadowColor: PageColor.background_col2,
                             elevation: 3,
                             borderRadius: BorderRadius.circular(50),
                             child: InkWell(
                               onTap: () {
-                                Navigator.pushNamed(context, '/second');
+                                Navigator.pushNamed(context, '/map_screen');
                               },
                               borderRadius: BorderRadius.circular(50),
                               child: Container(

@@ -175,6 +175,7 @@ class _MapScreen extends State<MapScreen> {
             ),
             children: [
               TileLayer(
+                key: const ValueKey('map'),
                 // errorImage: ,
                 urlTemplate:
                     'https://a.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png',
@@ -217,7 +218,7 @@ class _MapScreen extends State<MapScreen> {
                                         d.temperature,
                                         d.wind,
                                         d.humidity,
-                                        DateFormat('kk:mm').format(
+                                        DateFormat('h:mm a').format(
                                             now.add(Duration(hours: d.hour))),
                                         PageColor.background_col3),
                                 ]),

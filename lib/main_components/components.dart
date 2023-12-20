@@ -17,6 +17,7 @@ class MainScreenComponents {
   static Widget actualWeatherPanel(String t, String v, String h, String hour,
       String day_name, String date, String city_name) {
     return Padding(
+      key: const ValueKey("actualWeatherPanel"),
       padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 10),
       child: Container(
         width: 900,
@@ -108,6 +109,7 @@ class MainScreenComponents {
 
   static Widget actualWeatherPanelCirc() {
     return Padding(
+      key: const ValueKey("actualWeatherPanelCirc"),
       padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 10),
       child: Container(
         width: 900,
@@ -144,6 +146,7 @@ class MapScreenComponents {
   ///
   static Widget leftMenu(BuildContext context) {
     return Container(
+        key: const ValueKey("leftMenu"),
         alignment: Alignment.topLeft,
         height: MediaQuery.of(context).size.height,
         width: MediaQuery.of(context).size.width * 0.2,
@@ -156,16 +159,9 @@ class MapScreenComponents {
               const SizedBox(
                 height: 10,
               ),
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    'GEOweather',
-                    style:
-                        GoogleFonts.aBeeZee(color: Colors.white, fontSize: 30),
-                  ),
-                ],
+              Text(
+                'GEOweather',
+                style: GoogleFonts.aBeeZee(color: Colors.white, fontSize: 30),
               ),
               // WHICH MODEL
               Text(
@@ -194,13 +190,14 @@ class MapScreenComponents {
                 child: Padding(
                   padding: const EdgeInsets.all(7.0),
                   child: Material(
+                    key: const ValueKey("closeMap"),
                     color: PageColor.items_col,
                     shadowColor: PageColor.background_col2,
                     elevation: 3,
                     borderRadius: BorderRadius.circular(50),
                     child: InkWell(
                       onTap: () {
-                        Navigator.pushNamed(context, '/');
+                        Navigator.pushNamed(context, '/main_screen');
                       },
                       borderRadius: BorderRadius.circular(50),
                       child: Container(
@@ -244,6 +241,7 @@ class MapScreenComponents {
   static Widget leftMenuGeoChosen(BuildContext context, double lat, double lon,
       WeatherData actual_temp, DateTime now) {
     return Container(
+        key: const ValueKey("leftMenuGeoChosen"),
         alignment: Alignment.topLeft,
         height: MediaQuery.of(context).size.height,
         width: MediaQuery.of(context).size.width * 0.2,
@@ -303,7 +301,7 @@ class MapScreenComponents {
                     borderRadius: BorderRadius.circular(50),
                     child: InkWell(
                       onTap: () {
-                        Navigator.pushNamed(context, '/');
+                        Navigator.pushNamed(context, '/main_screen');
                       },
                       borderRadius: BorderRadius.circular(50),
                       child: Container(
@@ -345,7 +343,7 @@ class MapScreenComponents {
                   actual_temp.temperature,
                   actual_temp.wind,
                   actual_temp.humidity,
-                  DateFormat('kk:mm')
+                  DateFormat('h:mm a')
                       .format(now.add(Duration(hours: actual_temp.hour)))),
 
               SizedBox(
@@ -362,6 +360,7 @@ class MapScreenComponents {
 
   static Widget geohashPanel(String t, String v, String h, String godz) {
     return Padding(
+        key: const ValueKey("geohashPanel"),
         padding: const EdgeInsets.symmetric(vertical: 10.0),
         child: SizedBox(
           width: 260,
@@ -441,7 +440,7 @@ class MapScreenComponents {
                 children: <Widget>[
                   for (int index = 0; index < 3; index++)
                     CommonWidgets.weatherPanelCirc(
-                        PageColor.background_col3, false),
+                        index + 1, PageColor.background_col3, false),
                 ]),
           ),
         ),
