@@ -1,7 +1,4 @@
-# weather_app
+# weather app
 
-A new Flutter project.
+This repo contains the needed code for local web app deployment.
 
-## Getting Started
-
-This project is a starting point for a Flutter application.
