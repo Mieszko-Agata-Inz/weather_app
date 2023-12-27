@@ -197,7 +197,12 @@ class MapScreenComponents {
                     borderRadius: BorderRadius.circular(50),
                     child: InkWell(
                       onTap: () {
-                        Navigator.pushNamed(context, '/main_screen');
+                        if (Navigator.canPop(context)) {
+                          // If there is, pop to the previous screen
+                          Navigator.pop(context);
+                        } else {
+                          Navigator.pushNamed(context, '/main_screen');
+                        }
                       },
                       borderRadius: BorderRadius.circular(50),
                       child: Container(
@@ -301,7 +306,12 @@ class MapScreenComponents {
                     borderRadius: BorderRadius.circular(50),
                     child: InkWell(
                       onTap: () {
-                        Navigator.pushNamed(context, '/main_screen');
+                        if (Navigator.canPop(context)) {
+                          // If there is, pop to the previous screen
+                          Navigator.pop(context);
+                        } else {
+                          Navigator.pushNamed(context, '/main_screen');
+                        }
                       },
                       borderRadius: BorderRadius.circular(50),
                       child: Container(

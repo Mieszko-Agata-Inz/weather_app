@@ -24,10 +24,10 @@ class CommonWidgets {
   /// single weather panel for future weather data
   ///
 
-  static Widget weatherPanel(
-      String t, String v, String h, String godz, Color background_col) {
+  static Widget weatherPanel(String t, String v, String h, String godz,
+      int index_number, Color background_col) {
     return Padding(
-        key: ValueKey("weatherPanel$godz"),
+        key: ValueKey("weatherPanel$index_number"),
         padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 10),
         child: Container(
           padding: const EdgeInsets.only(

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
+import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
 import 'package:weather_app/api/api.dart';
 import 'dart:async';
@@ -17,6 +18,9 @@ import 'package:weather_app/main_components/lat_lon_coord.dart';
 ///
 /// map screen
 ///
+
+/// logger for logs init
+Logger logger = Logger();
 
 class MapScreen extends StatefulWidget {
   const MapScreen({super.key});
@@ -107,7 +111,7 @@ class _MapScreen extends State<MapScreen> {
             scale: 2, filterQuality: FilterQuality.high),
       );
     } catch (e) {
-      print('blad');
+      logger.e('Failed to connect localhost:83. Error caught: $e');
     }
     super.initState();
   }
@@ -194,7 +198,9 @@ class _MapScreen extends State<MapScreen> {
             ],
           ),
           FutureBuilder<Response<Prediction>>(
-              future: getWeather(),
+              future: getWeather().catchError((e) {
+                logger.e('Error caught: $e');
+              }),
               builder: (context, AsyncSnapshot<Response<Prediction>> response) {
                 if (response.hasData) {
                   if (dataToLlist(response.data!.data)) {
@@ -220,6 +226,7 @@ class _MapScreen extends State<MapScreen> {
                                         d.humidity,
                                         DateFormat('h:mm a').format(
                                             now.add(Duration(hours: d.hour))),
+                                        d.hour,
                                         PageColor.background_col3),
                                 ]),
                           ),

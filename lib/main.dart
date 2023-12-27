@@ -1,4 +1,6 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:openapi/openapi.dart';
 import 'package:weather_app/screens/location_weather_screen.dart';
 import 'package:weather_app/api/api.dart';
 import 'package:provider/provider.dart';
@@ -31,11 +33,3 @@ class MyApp extends StatelessWidget {
         ),
       );
 }
-
-// class MainPage extends StatelessWidget {
-//   // This widget is the root of your application.
-//   @override
-//   Widget build(BuildContext context) {
-//     return const LocationWeatherScreen();
-//   }
-// }

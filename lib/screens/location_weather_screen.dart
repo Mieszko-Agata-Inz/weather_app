@@ -1,6 +1,10 @@
 // ignore_for_file: non_constant_identifier_names, use_super_parameters, use_build_context_synchronously
+import 'dart:convert';
+
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'package:logger/logger.dart';
 import 'package:openapi/openapi.dart';
 import 'package:provider/provider.dart';
 import 'dart:async';
@@ -13,13 +17,16 @@ import 'package:weather_app/main_components/common_code.dart';
 import 'package:weather_app/main_components/components.dart';
 import 'package:weather_app/main_components/page_colors.dart';
 import 'package:weather_app/api/api.dart';
+import 'package:weather_app/mocks/mock_prediction.dart';
 
 ///
 /// weather factory for city name into coordinates conversion,
 /// is given the key to the OpenWeatherMap which API is being used
 /// to make the conversion
 ///
-WeatherFactory wf = WeatherFactory("your_key");
+WeatherFactory wf = WeatherFactory("c3b644f0c85d9b7d64e4857adb7abd38");
+// logger for logs init
+Logger logger = Logger();
 
 ///
 /// main screen
@@ -61,13 +68,20 @@ class _LocationWeatherScreen extends State<LocationWeatherScreen> {
         .forecastForecastLatLonGet(lat: lat, lon: lon);
   }
 
+  Future<http.Response> getMockWeather() async {
+    return context
+        .read<MockAPIProvider>()
+        .mockClient
+        .get(Uri.parse('http://localhost:83'));
+  }
+
 // conversion of given city to the coordinates
   void changeCity(String new_city) async {
     Weather? w;
     try {
       w = await wf.currentWeatherByCityName(new_city);
     } catch (e) {
-      print(e);
+      logger.e('Error caught: $e');
       // if(e.hashCode == 404)
       // the exception is because:
       // An bad response was given by the API; it may be down.
@@ -88,13 +102,23 @@ class _LocationWeatherScreen extends State<LocationWeatherScreen> {
     }
   }
 
-  // weather predicitons into data_list and actual_temp
+// weather predicitons into data_list and actual_temp
   bool dataToLlist(Prediction? data) {
     if (data == null) return false;
-    BuiltList<num> hour0 = data.hour0;
-    BuiltList<num> hour1 = data.hour1;
-    BuiltList<num> hour2 = data.hour2;
-    BuiltList<num> hour3 = data.hour3;
+    return toLlist(data.hour0, data.hour1, data.hour2, data.hour3);
+  }
+
+  // weather predicitons into data_list and actual_temp
+  bool dataMockToLlist(http.Response? mockPrediction) {
+    if (mockPrediction == null) return false;
+    MockPrediction data =
+        MockPrediction.fromJson(json.decode(mockPrediction.body));
+    return toLlist(data.hour0!, data.hour1!, data.hour2!, data.hour3!);
+  }
+
+  // weather predicitons into data_list and actual_temp
+  bool toLlist(BuiltList<num> hour0, BuiltList<num> hour1, BuiltList<num> hour2,
+      BuiltList<num> hour3) {
     data_list.clear();
     data_list.add(WeatherData(
         humidity: hour1[0].toInt().toString(),
@@ -146,13 +170,15 @@ class _LocationWeatherScreen extends State<LocationWeatherScreen> {
                     clipBehavior: Clip.antiAlias,
                     // future builder for data get request
                     child: FutureBuilder<Response<Prediction>>(
+                        // http.Response
                         future: getWeather().catchError((e) {
-                          print(e);
+                          logger.e('Error caught: $e');
                         }),
                         builder: (context,
                             AsyncSnapshot<Response<Prediction>> response) {
+                          // http.Response
                           if (response.hasData) {
-                            dataToLlist(response.data!.data);
+                            dataToLlist(response.data!.data); // response.data!
                             return Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
@@ -197,6 +223,7 @@ class _LocationWeatherScreen extends State<LocationWeatherScreen> {
                                               DateFormat('h:mm a').format(
                                                   now.add(
                                                       Duration(hours: d.hour))),
+                                              d.hour,
                                               PageColor.background_col1),
                                       ]),
                                 ),
@@ -353,7 +380,12 @@ class _LocationWeatherScreen extends State<LocationWeatherScreen> {
                             borderRadius: BorderRadius.circular(50),
                             child: InkWell(
                               onTap: () {
-                                Navigator.pushNamed(context, '/map_screen');
+                                if (Navigator.canPop(context)) {
+                                  // If there is, pop to the previous screen
+                                  Navigator.pop(context);
+                                } else {
+                                  Navigator.pushNamed(context, '/map_screen');
+                                }
                               },
                               borderRadius: BorderRadius.circular(50),
                               child: Container(

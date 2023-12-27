@@ -49,6 +49,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.1.1"
+  build:
+    dependency: transitive
+    description:
+      name: build
+      sha256: "80184af8b6cb3e5c1c4ec6d8544d27711700bc3e6d2efad04238c7b5290889f0"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.4.1"
   built_collection:
     dependency: "direct main"
     description:
@@ -81,6 +89,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.1.1"
+  code_builder:
+    dependency: transitive
+    description:
+      name: code_builder
+      sha256: feee43a5c05e7b3199bb375a86430b8ada1b04104f2923d0e03cc01ca87b6d84
+      url: "https://pub.dev"
+    source: hosted
+    version: "4.9.0"
   collection:
     dependency: transitive
     description:
@@ -121,6 +137,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.6"
+  dart_style:
+    dependency: transitive
+    description:
+      name: dart_style
+      sha256: "40ae61a5d43feea6d24bd22c0537a6629db858963b99b4bc1c3db80676f32368"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.3.4"
   dio:
     dependency: "direct main"
     description:
@@ -323,13 +347,21 @@ packages:
     source: hosted
     version: "3.1.0"
   http:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: http
       sha256: d4872660c46d929f6b8a9ef4e7a7eff7e49bbf0c4ec3f385ee32df5119175139
       url: "https://pub.dev"
     source: hosted
     version: "1.1.2"
+  http_mock_adapter:
+    dependency: "direct main"
+    description:
+      name: http_mock_adapter
+      sha256: "46399c78bd4a0af071978edd8c502d7aeeed73b5fb9860bca86b5ed647a63c1b"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.6.1"
   http_multi_server:
     dependency: transitive
     description:
@@ -424,7 +456,7 @@ packages:
     source: hosted
     version: "1.0.1"
   logger:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: logger
       sha256: "6bbb9d6f7056729537a4309bda2e74e18e5d9f14302489cc1e93f33b3fe32cac"
@@ -479,6 +511,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.4"
+  mockito:
+    dependency: "direct main"
+    description:
+      name: mockito
+      sha256: "6841eed20a7befac0ce07df8116c8b8233ed1f4486a7647c7fc5a02ae6163917"
+      url: "https://pub.dev"
+    source: hosted
+    version: "5.4.4"
   nested:
     dependency: transitive
     description:
@@ -739,6 +779,14 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.99"
+  source_gen:
+    dependency: transitive
+    description:
+      name: source_gen
+      sha256: "14658ba5f669685cd3d63701d01b31ea748310f7ab854e471962670abcf57832"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.5.0"
   source_map_stack_trace:
     dependency: transitive
     description:
