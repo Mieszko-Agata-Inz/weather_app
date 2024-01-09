@@ -107,7 +107,7 @@ class _MapScreen extends State<MapScreen> {
         point: LatLng(lat2, lon2),
         width: 45,
         height: 45,
-        child: Image.asset('images/sun.png',
+        child: Image.asset('images/hash2.png',
             scale: 2, filterQuality: FilterQuality.high),
       );
     } catch (e) {
@@ -156,7 +156,7 @@ class _MapScreen extends State<MapScreen> {
                       point: point,
                       width: 45,
                       height: 45,
-                      child: Image.asset('images/sun.png',
+                      child: Image.asset('images/hash2.png',
                           scale: 2, filterQuality: FilterQuality.high),
                     );
 
@@ -182,7 +182,8 @@ class _MapScreen extends State<MapScreen> {
                 key: const ValueKey('map'),
                 // errorImage: ,
                 urlTemplate:
-                    'https://a.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png',
+                    // 'https://a.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png',
+                    'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
               ),
               Container(
                 color: const Color.fromARGB(55, 0, 30, 54),

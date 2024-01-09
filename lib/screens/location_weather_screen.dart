@@ -198,7 +198,7 @@ class _LocationWeatherScreen extends State<LocationWeatherScreen> {
                                         DateFormat('h:mm a').format(now),
                                         DateFormat('EEEEE').format(now),
                                         DateFormat('MMM d').format(now),
-                                        city_name),
+                                        "${city_name[0].toUpperCase()}${city_name.substring(1).toLowerCase()}"),
                                   ]),
                                 ),
                                 SizedBox(
@@ -298,11 +298,13 @@ class _LocationWeatherScreen extends State<LocationWeatherScreen> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Flexible(
-                            child: Text(
-                              'GEOweather',
-                              style: GoogleFonts.aBeeZee(
-                                  color: Colors.white, fontSize: 30),
-                            ),
+                            child: Image.asset('images/logoGEO.png',
+                                scale: 1.3, filterQuality: FilterQuality.high),
+                            // child: Text(
+                            //   'GEOweather',
+                            //   style: GoogleFonts.aBeeZee(
+                            //       color: Colors.white, fontSize: 30),
+                            // ),
                           ),
                         ],
                       ),

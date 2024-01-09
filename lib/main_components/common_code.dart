@@ -137,14 +137,14 @@ class CommonWidgets {
           height: 150,
           child: Center(
             child: SizedBox(
-              width: 30,
-              height: 30,
+              width: 50,
+              height: 50,
               child: main_screen
                   ? const CircularProgressIndicator(
                       color: PageColor.circ_col,
                     )
-                  : Image.asset('images/sun.png',
-                      scale: 3, filterQuality: FilterQuality.high),
+                  : Image.asset('images/hash2.png',
+                      scale: 2, filterQuality: FilterQuality.high),
             ),
           ),
         ),

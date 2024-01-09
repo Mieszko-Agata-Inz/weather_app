@@ -153,16 +153,15 @@ class MapScreenComponents {
         color: PageColor.background_col2,
         child: SingleChildScrollView(
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               // LOGO
               const SizedBox(
                 height: 10,
               ),
-              Text(
-                'GEOweather',
-                style: GoogleFonts.aBeeZee(color: Colors.white, fontSize: 30),
-              ),
+              Image.asset('images/logoGEO.png',
+                  scale: 1.3, filterQuality: FilterQuality.high),
               // WHICH MODEL
               Text(
                 'Predictions by',
@@ -253,7 +252,8 @@ class MapScreenComponents {
         color: PageColor.background_col2,
         child: SingleChildScrollView(
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               // LOGO
               const SizedBox(
@@ -264,11 +264,8 @@ class MapScreenComponents {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Flexible(
-                    child: Text(
-                      'GEOweather',
-                      style: GoogleFonts.aBeeZee(
-                          color: Colors.white, fontSize: 30),
-                    ),
+                    child: Image.asset('images/logoGEO.png',
+                        scale: 1.3, filterQuality: FilterQuality.high),
                   ),
                 ],
               ),
