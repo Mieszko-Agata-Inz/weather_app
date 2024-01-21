@@ -17,7 +17,8 @@ import 'package:weather_app/api/api.dart';
 /// is given the key to the OpenWeatherMap which API is being used
 /// to make the conversion
 ///
-WeatherFactory wf = WeatherFactory("c3b644f0c85d9b7d64e4857adb7abd38");
+API_KEY=""
+WeatherFactory wf = WeatherFactory(API_KEY);
 // logger for logs init
 Logger logger = Logger();
 
