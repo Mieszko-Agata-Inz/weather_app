@@ -38,7 +38,7 @@ class StaticTextsStyle {
   );
   static final menu_style = GoogleFonts.raleway(
     color: Colors.white,
-    fontSize: 22,
+    fontSize: 17,
     letterSpacing: 4,
     fontWeight: FontWeight.w300,
   );
