@@ -61,6 +61,7 @@ class Prediction {
           hour: 0);
       return true;
     } catch (e) {
+      print(e);
       return false;
     }
   }

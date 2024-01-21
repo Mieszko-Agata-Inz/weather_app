@@ -12,7 +12,7 @@ void main() {
       'ensure all widgets are being displayed on main screen of the usual size',
       (tester) async {
     // mock dio
-    String path = 'http://localhost:83/forecast/21.0118/52.2298';
+    String path = 'http://localhost:83/forecast/52.2298/21.0118';
     Dio dio = Dio();
     final dioAdapter = DioAdapter(dio: dio);
     dio.httpClientAdapter = dioAdapter;
