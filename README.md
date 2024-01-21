@@ -19,4 +19,3 @@ Start your Flutter web app:
 ```
 flutter run -d web
 ```
-
