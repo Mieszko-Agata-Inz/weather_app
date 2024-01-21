@@ -1,23 +1,16 @@
 // ignore_for_file: non_constant_identifier_names, use_super_parameters, use_build_context_synchronously
-import 'dart:convert';
-
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
 import 'package:logger/logger.dart';
-import 'package:openapi/openapi.dart';
 import 'package:provider/provider.dart';
 import 'dart:async';
 import 'package:weather/weather.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:built_collection/built_collection.dart';
 import 'package:intl/intl.dart';
 
 import 'package:weather_app/main_components/common_code.dart';
 import 'package:weather_app/main_components/components.dart';
 import 'package:weather_app/main_components/page_colors.dart';
 import 'package:weather_app/api/api.dart';
-import 'package:weather_app/mocks/mock_prediction.dart';
 
 ///
 /// weather factory for city name into coordinates conversion,
@@ -50,29 +43,17 @@ class _LocationWeatherScreen extends State<LocationWeatherScreen> {
   // coordinates of actual city
   double lat = 52.2298;
   double lon = 21.0118;
-  // list for weather predicitons to save
-  List<WeatherData> data_list = List.empty(growable: true);
-  // actual weather to save
-  late WeatherData actual_temp;
+  // weather prediction to save
+  Prediction prediction = Prediction();
   // actual time to display
   DateTime now = DateTime.now();
   // does the given city exist
   bool city_exist = true;
+  String status_text_in_search = "No data for this input";
 
   // get predicitons for given city
-  Future<Response<Prediction>> getWeather() async {
-    return context
-        .read<APIProvider>()
-        .api
-        .getDefaultApi()
-        .forecastForecastLatLonGet(lat: lat, lon: lon);
-  }
-
-  Future<http.Response> getMockWeather() async {
-    return context
-        .read<MockAPIProvider>()
-        .mockClient
-        .get(Uri.parse('http://localhost:83'));
+  Future<Response<dynamic>> getWeather() async {
+    return context.read<APIProvider>().getDataLonLat(lat, lon);
   }
 
 // conversion of given city to the coordinates
@@ -81,13 +62,20 @@ class _LocationWeatherScreen extends State<LocationWeatherScreen> {
     try {
       w = await wf.currentWeatherByCityName(new_city);
     } catch (e) {
-      logger.e('Error caught: $e');
-      // if(e.hashCode == 404)
-      // the exception is because:
-      // An bad response was given by the API; it may be down.
+      logger.e('Error changeCity caught: $e');
+
+      if (e.toString().contains('city not found')) {
+        status_text_in_search = "No data for this input";
+      } else {
+        status_text_in_search = "Connection lost";
+      }
+      setState(() {
+        city_exist = false;
+      });
+      return;
     }
 
-    if (w != null && w.country != null && w.country! == "PL") {
+    if (w.country != null && w.country == "PL") {
       setState(() {
         city_exist = true;
         city_name = new_city;
@@ -96,52 +84,11 @@ class _LocationWeatherScreen extends State<LocationWeatherScreen> {
       lat = w.latitude!;
       lon = w.longitude!;
     } else {
+      status_text_in_search = "No data for this input";
       setState(() {
         city_exist = false;
       });
     }
-  }
-
-// weather predicitons into data_list and actual_temp
-  bool dataToLlist(Prediction? data) {
-    if (data == null) return false;
-    return toLlist(data.hour0, data.hour1, data.hour2, data.hour3);
-  }
-
-  // weather predicitons into data_list and actual_temp
-  bool dataMockToLlist(http.Response? mockPrediction) {
-    if (mockPrediction == null) return false;
-    MockPrediction data =
-        MockPrediction.fromJson(json.decode(mockPrediction.body));
-    return toLlist(data.hour0!, data.hour1!, data.hour2!, data.hour3!);
-  }
-
-  // weather predicitons into data_list and actual_temp
-  bool toLlist(BuiltList<num> hour0, BuiltList<num> hour1, BuiltList<num> hour2,
-      BuiltList<num> hour3) {
-    data_list.clear();
-    data_list.add(WeatherData(
-        humidity: hour1[0].toInt().toString(),
-        wind: (hour1[1] * 0.28).toInt().toString(),
-        temperature: hour1[2].toInt().toString(),
-        hour: 1));
-    data_list.add(WeatherData(
-        humidity: hour2[0].toInt().toString(),
-        wind: (hour2[1] * 0.28).toInt().toString(),
-        temperature: hour2[2].toInt().toString(),
-        hour: 2));
-    data_list.add(WeatherData(
-        humidity: hour3[0].toInt().toString(),
-        wind: (hour3[1] * 0.28).toInt().toString(),
-        temperature: hour3[2].toInt().toString(),
-        hour: 3));
-
-    actual_temp = WeatherData(
-        humidity: hour0[0].toInt().toString(),
-        wind: (hour0[1] * 0.28).toInt().toString(),
-        temperature: (hour0[2]).toInt().toString(),
-        hour: 0);
-    return true;
   }
 
   @override
@@ -169,66 +116,122 @@ class _LocationWeatherScreen extends State<LocationWeatherScreen> {
                     physics: const AlwaysScrollableScrollPhysics(),
                     clipBehavior: Clip.antiAlias,
                     // future builder for data get request
-                    child: FutureBuilder<Response<Prediction>>(
-                        // http.Response
+                    child: FutureBuilder<Response<dynamic>>(
                         future: getWeather().catchError((e) {
                           logger.e('Error caught: $e');
+                          return e;
                         }),
                         builder: (context,
-                            AsyncSnapshot<Response<Prediction>> response) {
-                          // http.Response
+                            AsyncSnapshot<Response<dynamic>> response) {
                           if (response.hasData) {
-                            dataToLlist(response.data!.data); // response.data!
-                            return Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Padding(
-                                  padding: EdgeInsets.only(
-                                      top: MediaQuery.of(context).size.height *
-                                          0.1,
-                                      left: MediaQuery.of(context).size.width *
-                                          0.05,
-                                      right: MediaQuery.of(context).size.width *
-                                          0.05),
-                                  child: Row(children: <Widget>[
-                                    MainScreenComponents.actualWeatherPanel(
-                                        actual_temp.temperature,
-                                        actual_temp.wind,
-                                        actual_temp.humidity,
-                                        DateFormat('h:mm a').format(now),
-                                        DateFormat('EEEEE').format(now),
-                                        DateFormat('MMM d').format(now),
-                                        city_name),
-                                  ]),
-                                ),
-                                SizedBox(
-                                  height:
-                                      MediaQuery.of(context).size.height * 0.04,
-                                ),
-                                Padding(
-                                  padding: EdgeInsets.only(
-                                      left: MediaQuery.of(context).size.width *
-                                          0.05,
-                                      right: MediaQuery.of(context).size.width *
-                                          0.05),
-                                  child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      children: <Widget>[
-                                        for (WeatherData d in data_list)
-                                          CommonWidgets.weatherPanel(
-                                              d.temperature,
-                                              d.wind,
-                                              d.humidity,
-                                              DateFormat('h:mm a').format(
-                                                  now.add(
-                                                      Duration(hours: d.hour))),
-                                              d.hour,
-                                              PageColor.background_col1),
-                                      ]),
-                                ),
-                              ],
-                            );
+                            if (prediction.weatherPredictions(
+                                response.data!.data)) // response.data!
+                              return Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Padding(
+                                    padding: EdgeInsets.only(
+                                        top:
+                                            MediaQuery.of(context).size.height *
+                                                0.1,
+                                        left:
+                                            MediaQuery.of(context).size.width *
+                                                0.05,
+                                        right:
+                                            MediaQuery.of(context).size.width *
+                                                0.05),
+                                    child: Row(children: <Widget>[
+                                      MainScreenComponents.actualWeatherPanel(
+                                          prediction.actual_temp.temperature,
+                                          prediction.actual_temp.wind,
+                                          prediction.actual_temp.humidity,
+                                          DateFormat('h:mm a').format(now),
+                                          DateFormat('EEEEE').format(now),
+                                          DateFormat('MMM d').format(now),
+                                          "${city_name[0].toUpperCase()}${city_name.substring(1).toLowerCase()}"),
+                                    ]),
+                                  ),
+                                  SizedBox(
+                                    height: MediaQuery.of(context).size.height *
+                                        0.04,
+                                  ),
+                                  Padding(
+                                    padding: EdgeInsets.only(
+                                        left:
+                                            MediaQuery.of(context).size.width *
+                                                0.05,
+                                        right:
+                                            MediaQuery.of(context).size.width *
+                                                0.05),
+                                    child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        children: <Widget>[
+                                          for (WeatherData d
+                                              in prediction.data_list)
+                                            CommonWidgets.weatherPanel(
+                                                d.temperature,
+                                                d.wind,
+                                                d.humidity,
+                                                DateFormat('h:mm a').format(
+                                                    now.add(Duration(
+                                                        hours: d.hour))),
+                                                d.hour,
+                                                PageColor.background_col1),
+                                        ]),
+                                  ),
+                                ],
+                              );
+                            else
+                              return Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Padding(
+                                    padding: EdgeInsets.only(
+                                        top:
+                                            MediaQuery.of(context).size.height *
+                                                0.1,
+                                        left:
+                                            MediaQuery.of(context).size.width *
+                                                0.05,
+                                        right:
+                                            MediaQuery.of(context).size.width *
+                                                0.05),
+                                    child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        children: <Widget>[
+                                          MainScreenComponents
+                                              .actualWeatherPanelCirc(),
+                                        ]),
+                                  ),
+                                  SizedBox(
+                                    height: MediaQuery.of(context).size.height *
+                                        0.04,
+                                  ),
+                                  Padding(
+                                    padding: EdgeInsets.only(
+                                        left:
+                                            MediaQuery.of(context).size.width *
+                                                0.05,
+                                        right:
+                                            MediaQuery.of(context).size.width *
+                                                0.05),
+                                    child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: <Widget>[
+                                          for (int index = 0;
+                                              index < 3;
+                                              index++)
+                                            CommonWidgets.weatherPanelCirc(
+                                                index + 1,
+                                                PageColor.background_col1,
+                                                true),
+                                        ]),
+                                  ),
+                                ],
+                              );
                           } else {
                             return Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -298,11 +301,8 @@ class _LocationWeatherScreen extends State<LocationWeatherScreen> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Flexible(
-                            child: Text(
-                              'GEOweather',
-                              style: GoogleFonts.aBeeZee(
-                                  color: Colors.white, fontSize: 30),
-                            ),
+                            child: Image.asset('images/logoGEO.png',
+                                scale: 1.3, filterQuality: FilterQuality.high),
                           ),
                         ],
                       ),
@@ -322,50 +322,18 @@ class _LocationWeatherScreen extends State<LocationWeatherScreen> {
                       SizedBox(
                         height: MediaQuery.of(context).size.height * 0.05,
                       ),
-                      // SEARCH
-                      Text(
-                        'Search city',
-                        style: StaticTextsStyle.menu_style,
-                      ),
-                      SizedBox(
-                        width: MediaQuery.of(context).size.width * 0.18,
-                        height: 60,
-                        child: Padding(
-                          padding: const EdgeInsets.all(7.0),
-                          child: SearchBar(
-                            key: const ValueKey("searchCityArea"),
-                            hintText:
-                                city_exist ? null : "No data for this city",
-                            controller: textarea,
-                            onSubmitted: (_) {
-                              changeCity(textarea.text);
-
-                              textarea.clear();
-                            },
-                            leading: const Icon(
-                              Icons.search,
-                              color: PageColor.background_col2,
-                            ),
-                            trailing: const <Widget>[
-                              Icon(
-                                Icons.wb_sunny_outlined,
-                                color: Colors.amber,
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      SizedBox(
-                        height: MediaQuery.of(context).size.height * 0.05,
-                      ),
-                      CommonWidgets.dividerWhite(),
-                      SizedBox(
-                        height: MediaQuery.of(context).size.height * 0.05,
-                      ),
                       // MAP
-                      Text(
-                        'Open map',
-                        style: StaticTextsStyle.menu_style,
+                      Column(
+                        children: [
+                          Text(
+                            'Route to',
+                            style: StaticTextsStyle.menu_style,
+                          ),
+                          Text(
+                            'the map screen',
+                            style: StaticTextsStyle.menu_style,
+                          ),
+                        ],
                       ),
                       SizedBox(
                         width: MediaQuery.of(context).size.width * 0.18,
@@ -393,7 +361,7 @@ class _LocationWeatherScreen extends State<LocationWeatherScreen> {
                                 height: 50,
                                 alignment: Alignment.center,
                                 child: Text(
-                                  'geohashes',
+                                  'open map',
                                   style: StaticTextsStyle.predictions_style,
                                 ),
                               ),
@@ -401,6 +369,46 @@ class _LocationWeatherScreen extends State<LocationWeatherScreen> {
                           ),
                         ),
                       ),
+                      SizedBox(
+                        height: MediaQuery.of(context).size.height * 0.05,
+                      ),
+                      CommonWidgets.dividerWhite(),
+                      SizedBox(
+                        height: MediaQuery.of(context).size.height * 0.05,
+                      ),
+                      // SEARCH
+                      Text(
+                        'Search Polish city',
+                        style: StaticTextsStyle.menu_style,
+                      ),
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width * 0.18,
+                        height: 60,
+                        child: Padding(
+                          padding: const EdgeInsets.all(7.0),
+                          child: SearchBar(
+                            key: const ValueKey("searchCityArea"),
+                            hintText: city_exist ? null : status_text_in_search,
+                            controller: textarea,
+                            onSubmitted: (_) {
+                              changeCity(textarea.text);
+
+                              textarea.clear();
+                            },
+                            leading: const Icon(
+                              Icons.search,
+                              color: PageColor.background_col2,
+                            ),
+                            trailing: const <Widget>[
+                              Icon(
+                                Icons.wb_sunny_outlined,
+                                color: Color.fromARGB(255, 219, 164, 0),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+
                       SizedBox(
                         height: MediaQuery.of(context).size.height * 0.05,
                       ),

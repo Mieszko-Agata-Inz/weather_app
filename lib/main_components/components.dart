@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 
 import 'package:weather_app/main_components/common_code.dart';
@@ -29,74 +28,78 @@ class MainScreenComponents {
         child: SizedBox(
           width: 810,
           height: 300,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                '$hour   $date',
-                style: StaticTextsStyle.hour_style,
-              ),
-              Row(
-                children: [
-                  Text(
-                    city_name,
-                    style: StaticTextsStyle.city_name_style,
-                  ),
-                ],
-              ),
-              SizedBox(
-                width: 260,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
+          child: SingleChildScrollView(
+            scrollDirection: Axis.vertical,
+            physics: const AlwaysScrollableScrollPhysics(),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  '$hour   $date',
+                  style: StaticTextsStyle.hour_style,
+                ),
+                Row(
                   children: [
-                    Row(
-                      children: [
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                "Temperature",
-                                style: StaticTextsStyle.predictions_style,
-                              ),
-                              Text(
-                                "Wind",
-                                style: StaticTextsStyle.predictions_style,
-                              ),
-                              Text(
-                                "Humidity",
-                                style: StaticTextsStyle.predictions_style,
-                              ),
-                            ],
-                          ),
-                        ),
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.end,
-                            children: [
-                              Text(
-                                "$t°C",
-                                style: StaticTextsStyle.predictions_style,
-                              ),
-                              Text(
-                                "$v m/s",
-                                style: StaticTextsStyle.predictions_style,
-                              ),
-                              Text(
-                                "$h %",
-                                style: StaticTextsStyle.predictions_style,
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
+                    Text(
+                      city_name,
+                      style: StaticTextsStyle.city_name_style,
                     ),
                   ],
                 ),
-              )
-            ],
+                SizedBox(
+                  width: 260,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        children: [
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  "Temperature",
+                                  style: StaticTextsStyle.predictions_style,
+                                ),
+                                Text(
+                                  "Wind",
+                                  style: StaticTextsStyle.predictions_style,
+                                ),
+                                Text(
+                                  "Humidity",
+                                  style: StaticTextsStyle.predictions_style,
+                                ),
+                              ],
+                            ),
+                          ),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.end,
+                              children: [
+                                Text(
+                                  "$t°C",
+                                  style: StaticTextsStyle.predictions_style,
+                                ),
+                                Text(
+                                  "$v m/s",
+                                  style: StaticTextsStyle.predictions_style,
+                                ),
+                                Text(
+                                  "$h %",
+                                  style: StaticTextsStyle.predictions_style,
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                )
+              ],
+            ),
           ),
         ),
       ),
@@ -153,16 +156,15 @@ class MapScreenComponents {
         color: PageColor.background_col2,
         child: SingleChildScrollView(
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               // LOGO
               const SizedBox(
                 height: 10,
               ),
-              Text(
-                'GEOweather',
-                style: GoogleFonts.aBeeZee(color: Colors.white, fontSize: 30),
-              ),
+              Image.asset('images/logoGEO.png',
+                  scale: 1.3, filterQuality: FilterQuality.high),
               // WHICH MODEL
               Text(
                 'Predictions by',
@@ -180,9 +182,17 @@ class MapScreenComponents {
                 height: MediaQuery.of(context).size.height * 0.05,
               ),
               // MAP
-              Text(
-                'Close map',
-                style: StaticTextsStyle.menu_style,
+              Column(
+                children: [
+                  Text(
+                    'Route to',
+                    style: StaticTextsStyle.menu_style,
+                  ),
+                  Text(
+                    'the main screen',
+                    style: StaticTextsStyle.menu_style,
+                  ),
+                ],
               ),
               SizedBox(
                 width: MediaQuery.of(context).size.width * 0.18,
@@ -210,7 +220,7 @@ class MapScreenComponents {
                         height: 50,
                         alignment: Alignment.center,
                         child: Text(
-                          'weather',
+                          'close map',
                           style: StaticTextsStyle.predictions_style,
                         ),
                       ),
@@ -222,16 +232,37 @@ class MapScreenComponents {
               SizedBox(
                 height: MediaQuery.of(context).size.height * 0.05,
               ),
-              CommonWidgets.dividerWhite(),
+              const Center(
+                child: SizedBox(
+                  width: 205,
+                  child: Divider(
+                    color: Colors.white,
+                  ),
+                ),
+              ),
               SizedBox(
                 height: MediaQuery.of(context).size.height * 0.05,
               ),
-              Text(
-                'Geohash weather',
-                style: StaticTextsStyle.menu_style,
-              ),
+              Column(children: [
+                Text(
+                  'Weather for',
+                  style: StaticTextsStyle.menu_style,
+                ),
+                Text(
+                  'chosen Geohash',
+                  style: StaticTextsStyle.menu_style,
+                ),
+              ]),
               SizedBox(
                 height: MediaQuery.of(context).size.height * 0.05,
+              ),
+              const Center(
+                child: SizedBox(
+                    width: 50,
+                    height: 50,
+                    child: CircularProgressIndicator(
+                      color: PageColor.circ_col,
+                    )),
               ),
             ],
           ),
@@ -253,7 +284,8 @@ class MapScreenComponents {
         color: PageColor.background_col2,
         child: SingleChildScrollView(
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               // LOGO
               const SizedBox(
@@ -264,11 +296,8 @@ class MapScreenComponents {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Flexible(
-                    child: Text(
-                      'GEOweather',
-                      style: GoogleFonts.aBeeZee(
-                          color: Colors.white, fontSize: 30),
-                    ),
+                    child: Image.asset('images/logoGEO.png',
+                        scale: 1.3, filterQuality: FilterQuality.high),
                   ),
                 ],
               ),
@@ -290,9 +319,17 @@ class MapScreenComponents {
                 height: MediaQuery.of(context).size.height * 0.05,
               ),
               // MAP
-              Text(
-                'Close map',
-                style: StaticTextsStyle.menu_style,
+              Column(
+                children: [
+                  Text(
+                    'Route to',
+                    style: StaticTextsStyle.menu_style,
+                  ),
+                  Text(
+                    'the main screen',
+                    style: StaticTextsStyle.menu_style,
+                  ),
+                ],
               ),
               SizedBox(
                 width: MediaQuery.of(context).size.width * 0.18,
@@ -319,7 +356,7 @@ class MapScreenComponents {
                         height: 50,
                         alignment: Alignment.center,
                         child: Text(
-                          'weather',
+                          'close map',
                           style: StaticTextsStyle.predictions_style,
                         ),
                       ),
@@ -330,25 +367,40 @@ class MapScreenComponents {
               SizedBox(
                 height: MediaQuery.of(context).size.height * 0.05,
               ),
-              CommonWidgets.dividerWhite(),
-              SizedBox(
-                height: MediaQuery.of(context).size.height * 0.05,
-              ),
-              Text(
-                'Geohash weather',
-                style: StaticTextsStyle.menu_style,
-              ),
-              Text(
-                "($lat, $lon)",
-                style: StaticTextsStyle.hour_style,
+              const Center(
+                child: SizedBox(
+                  width: 205,
+                  child: Divider(
+                    color: Colors.white,
+                  ),
+                ),
               ),
               SizedBox(
                 height: MediaQuery.of(context).size.height * 0.05,
               ),
-              Text(
-                'Actual',
-                style: StaticTextsStyle.menu_style,
+              Column(
+                children: [
+                  Text(
+                    'Weather for',
+                    style: StaticTextsStyle.menu_style,
+                  ),
+                  Text(
+                    'chosen Geohash',
+                    style: StaticTextsStyle.menu_style,
+                  ),
+                ],
               ),
+              // Text(
+              //   "($lat, $lon)",
+              //   style: StaticTextsStyle.hour_style,
+              // ),
+              SizedBox(
+                height: MediaQuery.of(context).size.height * 0.05,
+              ),
+              // Text(
+              //   'Actual ',
+              //   style: StaticTextsStyle.menu_style,
+              // ),
               geohashPanel(
                   actual_temp.temperature,
                   actual_temp.wind,
@@ -368,7 +420,7 @@ class MapScreenComponents {
   /// panel in left menu for actual weather display
   ///
 
-  static Widget geohashPanel(String t, String v, String h, String godz) {
+  static Widget geohashPanel(String t, String v, String h, String hour) {
     return Padding(
         key: const ValueKey("geohashPanel"),
         padding: const EdgeInsets.symmetric(vertical: 10.0),
@@ -381,7 +433,7 @@ class MapScreenComponents {
               Row(
                 children: [
                   Text(
-                    godz,
+                    hour,
                     style: StaticTextsStyle.hour_style,
                   ),
                 ],
